@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, MoreHorizontal, Download, Share2 } from 'lucide-react';
-import { mockVerificationDetail } from '@/lib/mockData';
+import { ArrowLeft, MoreHorizontal, Download, Share2, Loader2 } from 'lucide-react';
+import { VerificationDetail } from '@/types';
+import { fetchFromApi } from '@/lib/api';
 import { OverviewTab } from '@/components/verifications/OverviewTab';
 import { IDVerificationTab } from '@/components/verifications/IDVerificationTab';
 import { LivenessTab } from '@/components/verifications/LivenessTab';
@@ -23,18 +24,40 @@ const sections = [
   { id: 'webhooks', label: 'Webhooks' },
 ];
 
-export default function VerificationDetailPage() {
+export default function VerificationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState('overview');
-  const data = mockVerificationDetail; 
+  const [data, setData] = useState<VerificationDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Unwrap params
+  const { id } = use(params);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
+  useEffect(() => {
+    async function loadDetail() {
+      try {
+        // Backend expects session ID with '#' usually, but URL might not have it or encoded
+        // The mock store handles adding '#' if missing.
+        const detail = await fetchFromApi<VerificationDetail>(`/api/verifications/${id}`);
+        setData(detail);
+      } catch (err) {
+        console.error('Failed to load verification detail:', err);
+        setError('Failed to load verification details.');
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadDetail();
+  }, [id]);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
     if (element) {
       // Offset for sticky header (approx 180px)
       const y = element.getBoundingClientRect().top + window.scrollY - 180;
       window.scrollTo({ top: y, behavior: 'smooth' });
-      setActiveSection(id);
+      setActiveSection(sectionId);
     }
   };
 
@@ -54,6 +77,28 @@ export default function VerificationDetailPage() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="animate-spin text-blue-600" size={32} />
+      </div>
+    );
+  }
+
+  if (error || !data) {
+     return (
+      <div className="flex h-screen items-center justify-center flex-col gap-4">
+        <p className="text-red-500 font-medium">{error || 'Verification not found'}</p>
+        <button 
+          onClick={() => router.back()}
+          className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+        >
+          Go Back
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50/50">
