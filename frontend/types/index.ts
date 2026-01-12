@@ -117,5 +117,4 @@ export interface VerificationDetail extends VerificationSession {
     status: 'MATCH' | 'NO_MATCH';
   };
   events: VerificationEvent[];
-  webhooks: VerificationWebhook[];
 }

@@ -121,8 +121,7 @@ async def ingest_verification(
             score=95,
             status="MATCH"
         ),
-        events=[],
-        webhooks=[]
+        events=[]
     )
 
     db.add_verification(new_verification)

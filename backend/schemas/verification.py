@@ -126,4 +126,3 @@ class VerificationDetail(VerificationSession):
     liveness: LivenessInfo
     faceMatch: FaceMatchInfo
     events: List[VerificationEvent]
-    webhooks: List[VerificationWebhook]
