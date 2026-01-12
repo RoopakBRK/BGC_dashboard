@@ -11,7 +11,7 @@ import { LivenessTab } from '@/components/verifications/LivenessTab';
 import { FaceMatchTab } from '@/components/verifications/FaceMatchTab';
 import { IPAnalysisTab } from '@/components/verifications/IPAnalysisTab';
 import { EventsTab } from '@/components/verifications/EventsTab';
-import { WebhooksTab } from '@/components/verifications/WebhooksTab';
+//import { WebhooksTab } from '@/components/verifications/WebhooksTab';
 import { cn } from '@/lib/utils';
 
 const sections = [
@@ -21,7 +21,6 @@ const sections = [
   { id: 'face-match', label: 'Face Match' },
   { id: 'ip-analysis', label: 'IP Analysis' },
   { id: 'events', label: 'Events' },
-  { id: 'webhooks', label: 'Webhooks' },
 ];
 
 export default function VerificationDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -190,11 +189,6 @@ export default function VerificationDetailPage({ params }: { params: Promise<{ i
           <section id="events" className="scroll-mt-48">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Events Timeline</h2>
             <EventsTab data={data} />
-          </section>
-
-          <section id="webhooks" className="scroll-mt-48">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Webhooks</h2>
-            <WebhooksTab data={data} />
           </section>
 
         </div>

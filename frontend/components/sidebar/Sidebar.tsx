@@ -7,12 +7,6 @@ import {
   Users,
   ShieldCheck,
   BarChart3,
-  Settings2,
-  Ban,
-  ClipboardList,
-  Webhook,
-  FileText,
-  LifeBuoy,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -21,12 +15,6 @@ const navItems = [
   { name: 'Users', href: '/users', icon: Users },
   { name: 'Verifications', href: '/verifications', icon: ShieldCheck },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-  { name: 'Customizations', href: '/customizations', icon: Settings2 },
-  { name: 'Blocklist', href: '/blocklist', icon: Ban },
-  { name: 'Manual Checks', href: '/manual-checks', icon: ClipboardList },
-  { name: 'API & Webhooks', href: '/api-webhooks', icon: Webhook },
-  { name: 'Documentation', href: '/docs', icon: FileText },
-  { name: 'Support', href: '/support', icon: LifeBuoy },
 ];
 
 export function Sidebar() {
@@ -74,7 +62,7 @@ export function Sidebar() {
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-gray-200" />
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-900">Admin User</span>
+            <span className="text-sm font-medium text-gray-900">Roopak Krishna</span>
             <span className="text-xs text-gray-500">admin@welocity.com</span>
           </div>
         </div>
